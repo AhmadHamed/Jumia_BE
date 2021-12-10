@@ -59,4 +59,16 @@ public class CustomerTests extends JumiaProgrammingExerciseApplicationTests {
         .andExpect(jsonPath("$.content", hasSize(5)))
         .andExpect(jsonPath("$.pageable.pageNumber", is(1)));
   }
+
+  @Test
+  @DisplayName("Get all customers")
+  @Order(5)
+  public void getAllCustomers() throws Exception {
+    this.mockMvc
+        .perform(get("/customer/get-all"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$", hasSize(41)));
+  }
 }

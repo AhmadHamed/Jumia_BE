@@ -1,9 +1,13 @@
 package com.jumia.services;
 
-import com.jumia.entities.Customer;
+import com.jumia.CustomerResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ICustomerService {
-  Page<Customer> getPaginatedCustomers(Pageable pageable);
+  Page<CustomerResponseDto> getPaginatedCustomers(Pageable pageable);
+
+  List<CustomerResponseDto> getAllCustomers();
 }
