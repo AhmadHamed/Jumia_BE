@@ -1,14 +1,14 @@
 package com.jumia.controllers;
 
-import com.jumia.CustomerResponseDto;
+import com.jumia.dto.CustomerResponseDto;
 import com.jumia.services.ICustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,8 +32,10 @@ public class CustomerController {
   }
   /** @return list of all customer response */
   @GetMapping("/get-all")
-  public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
-    List<CustomerResponseDto> customersList = customerService.getAllCustomers();
+  public ResponseEntity<List<CustomerResponseDto>> getAllCustomers(
+      @RequestParam(required = false) String country,
+      @RequestParam(required = false) Boolean state) {
+    List<CustomerResponseDto> customersList = customerService.getAllCustomers(country, state);
     return ResponseEntity.ok(customersList);
   }
 }

@@ -1,6 +1,6 @@
 package com.jumia.utils;
 
-import com.jumia.CustomerResponseDto;
+import com.jumia.dto.CustomerResponseDto;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

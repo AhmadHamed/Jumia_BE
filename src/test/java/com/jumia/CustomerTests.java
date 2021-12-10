@@ -1,6 +1,8 @@
 package com.jumia;
 
 import com.jumia.controllers.CustomerController;
+import com.jumia.repos.CustomerRepo;
+import com.jumia.repos.CustomerViewRepo;
 import com.jumia.services.ICustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -17,6 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CustomerTests extends JumiaProgrammingExerciseApplicationTests {
 
   @Autowired private CustomerController customerController;
+  @Autowired private CustomerRepo customerRepo;
+  @Autowired private CustomerViewRepo customerViewRepo;
   @Autowired private ICustomerService customerService;
 
   @Test
@@ -27,15 +31,29 @@ public class CustomerTests extends JumiaProgrammingExerciseApplicationTests {
   }
 
   @Test
-  @DisplayName("Ensure that customer service is available in the bean pool")
+  @DisplayName("Ensure that customer  repo is available in the bean pool")
   @Order(2)
+  public void customerRepoTest() {
+    assertThat(customerRepo).isNotNull();
+  }
+
+  @Test
+  @DisplayName("Ensure that customer view repo is available in the bean pool")
+  @Order(3)
+  public void customerViewRepoTest() {
+    assertThat(customerViewRepo).isNotNull();
+  }
+
+  @Test
+  @DisplayName("Ensure that customer service is available in the bean pool")
+  @Order(4)
   public void customerServiceTest() {
     assertThat(customerService).isNotNull();
   }
 
   @Test
   @DisplayName("Get paginated response - no filters - default pageable")
-  @Order(3)
+  @Order(5)
   public void getPaginatedResponse() throws Exception {
     this.mockMvc
         .perform(get("/customer"))
@@ -47,7 +65,7 @@ public class CustomerTests extends JumiaProgrammingExerciseApplicationTests {
 
   @Test
   @DisplayName("Get paginated response - page and size specified")
-  @Order(4)
+  @Order(6)
   public void getPaginatedResponseWithPageAndSize() throws Exception {
     this.mockMvc
         .perform(get("/customer").param("page", "1").param("size", "5"))
@@ -58,8 +76,8 @@ public class CustomerTests extends JumiaProgrammingExerciseApplicationTests {
   }
 
   @Test
-  @DisplayName("Get all customers")
-  @Order(5)
+  @DisplayName("Get all customers - no filters")
+  @Order(7)
   public void getAllCustomers() throws Exception {
     this.mockMvc
         .perform(get("/customer/get-all"))
@@ -67,5 +85,42 @@ public class CustomerTests extends JumiaProgrammingExerciseApplicationTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$", hasSize(41)));
+  }
+
+  @Test
+  @DisplayName("Get all customers - filtered by country")
+  @Order(8)
+  public void getAllCustomersFilteredByCountry() throws Exception {
+    this.mockMvc
+        .perform(get("/customer/get-all").queryParam("country", "Cameroon"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$", hasSize(10)));
+  }
+
+  @Test
+  @DisplayName("Get all customers - filtered by state")
+  @Order(9)
+  public void getAllCustomersFilteredByState() throws Exception {
+    this.mockMvc
+        .perform(get("/customer/get-all").queryParam("state", "true"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$", hasSize(27)));
+  }
+
+  @Test
+  @DisplayName("Get all customers - filtered by country & state")
+  @Order(10)
+  public void getAllCustomersFilteredByCountryAndState() throws Exception {
+    this.mockMvc
+        .perform(
+            get("/customer/get-all").queryParam("country", "Cameroon").queryParam("state", "true"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$", hasSize(7)));
   }
 }

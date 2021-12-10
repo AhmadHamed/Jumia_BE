@@ -1,4 +1,4 @@
-package com.jumia;
+package com.jumia.dto;
 
 import com.jumia.entities.Customer;
 import lombok.Getter;
@@ -13,7 +13,7 @@ public class CustomerResponseDto {
   private String phone;
   private String countryCode;
   private String country;
-  private boolean state;
+  private Boolean state;
 
   public static CustomerResponseDto getCustomerResponseFromModel(Customer customer) {
     CustomerResponseDto customerResponseDto = new CustomerResponseDto();
