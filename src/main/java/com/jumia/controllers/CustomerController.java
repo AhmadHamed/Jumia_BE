@@ -25,9 +25,9 @@ public class CustomerController {
    * @return paginated customer response
    */
   @GetMapping
-  public ResponseEntity<Page<CustomerResponseDto>> getPaginatedCustomers(
+  public ResponseEntity<List<CustomerResponseDto>> getPaginatedCustomers(
       @PageableDefault Pageable pageable) {
-    Page<CustomerResponseDto> paginatedCustomers = customerService.getPaginatedCustomers(pageable);
+    List<CustomerResponseDto> paginatedCustomers = customerService.getPaginatedCustomers(pageable);
     return ResponseEntity.ok(paginatedCustomers);
   }
   /** @return list of all customer response */

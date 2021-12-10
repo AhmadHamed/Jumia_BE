@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -42,9 +41,8 @@ public class CustomerTests extends JumiaProgrammingExerciseApplicationTests {
         .perform(get("/customer"))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.content").isArray())
-        .andExpect(jsonPath("$.content", hasSize(10)))
-        .andExpect(jsonPath("$.pageable.pageNumber", is(0)));
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$", hasSize(10)));
   }
 
   @Test
@@ -55,9 +53,8 @@ public class CustomerTests extends JumiaProgrammingExerciseApplicationTests {
         .perform(get("/customer").param("page", "1").param("size", "5"))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.content").isArray())
-        .andExpect(jsonPath("$.content", hasSize(5)))
-        .andExpect(jsonPath("$.pageable.pageNumber", is(1)));
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$", hasSize(5)));
   }
 
   @Test

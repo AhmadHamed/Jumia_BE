@@ -21,23 +21,30 @@ public class CustomerServiceImp implements ICustomerService {
   private final CustomerRepo customerRepo;
 
   @Override
-  public Page<CustomerResponseDto> getPaginatedCustomers(Pageable pageable) {
+  public List<CustomerResponseDto> getPaginatedCustomers(Pageable pageable) {
     log.info("Getting paginated customers with pageable: {} at: {}", pageable, LocalDateTime.now());
-    customerRepo.findAll(pageable);
-  return null;
+    List<CustomerResponseDto> customersResponseDtos = new ArrayList<>();
+    customerRepo
+        .findAll(pageable)
+        .forEach(
+            customer -> {
+              customersResponseDtos.add(CustomerResponseDto.getCustomerResponseFromModel(customer));
+            });
+    return customersResponseDtos;
   }
 
   @Override
   public List<CustomerResponseDto> getAllCustomers() {
     log.info("Getting all customers at: {}", LocalDateTime.now());
 
-    List<Customer> customers = customerRepo.findAll();
     List<CustomerResponseDto> customersResponseDtos = new ArrayList<>();
 
-    customers.forEach(
-        customer -> {
-          customersResponseDtos.add(CustomerResponseDto.getCustomerResponseFromModel(customer));
-        });
+    customerRepo
+        .findAll()
+        .forEach(
+            customer -> {
+              customersResponseDtos.add(CustomerResponseDto.getCustomerResponseFromModel(customer));
+            });
     return customersResponseDtos;
   }
 }
