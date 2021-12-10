@@ -30,6 +30,10 @@ mvn test
 ```
 
 ## Building the container
+First lets package our app and create an excutable jar
+```shell
+mvn clean package
+```
 
 ```shell
 docker build --tag=jumia-be:latest
