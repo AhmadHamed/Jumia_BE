@@ -34,7 +34,7 @@ First lets package our app and create an excutable jar
 ```shell
 mvn clean package
 ```
-
+then run docker commands as follows
 ```shell
 docker build --tag=jumia-be:latest
 ```
