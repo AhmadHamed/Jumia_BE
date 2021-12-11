@@ -60,7 +60,7 @@ public class CustomerServiceImp implements ICustomerService {
     return customersResponseDtos.stream()
         .filter(
             (!isNull(country))
-                ? customerResponseDto -> customerResponseDto.getCountry().equals(country)
+                ? customerResponseDto -> customerResponseDto.getCountry().equalsIgnoreCase(country)
                 : customerResponseDto -> true)
         .filter(
             (!isNull(state))
