@@ -1,4 +1,4 @@
-package com.jumia.services.impl;
+package com.jumia.services.imp;
 
 import com.jumia.dto.CustomerResponseDto;
 import com.jumia.repos.CustomerRepo;
@@ -40,12 +40,9 @@ public class CustomerServiceImp implements ICustomerService {
 
     List<CustomerResponseDto> customersResponseDtos = new ArrayList<>();
     getUnfilteredData(customersResponseDtos);
+    customersResponseDtos = getFilteredData(customersResponseDtos, country, state);
 
-    if (isNull(country) && isNull(state)) {
-      return customersResponseDtos;
-    } else {
-      return filterData(customersResponseDtos, country, state);
-    }
+    return customersResponseDtos;
   }
 
   private void getUnfilteredData(List<CustomerResponseDto> customersResponseDtos) {
@@ -57,21 +54,18 @@ public class CustomerServiceImp implements ICustomerService {
             });
   }
 
-  private List<CustomerResponseDto> filterData(
+  private List<CustomerResponseDto> getFilteredData(
       List<CustomerResponseDto> customersResponseDtos, String country, Boolean state) {
 
-    if (!isNull(country)) {
-      customersResponseDtos =
-          customersResponseDtos.stream()
-              .filter(customerResponseDto -> customerResponseDto.getCountry().equals(country))
-              .collect(Collectors.toList());
-    }
-    if (!isNull(state)) {
-      customersResponseDtos =
-          customersResponseDtos.stream()
-              .filter(customerResponseDto -> customerResponseDto.getState().equals(state))
-              .collect(Collectors.toList());
-    }
-    return customersResponseDtos;
+    return customersResponseDtos.stream()
+        .filter(
+            (!isNull(country))
+                ? customerResponseDto -> customerResponseDto.getCountry().equals(country)
+                : customerResponseDto -> true)
+        .filter(
+            (!isNull(state))
+                ? customerResponseDto -> customerResponseDto.getState().equals(state)
+                : customerResponseDto -> true)
+        .collect(Collectors.toList());
   }
 }
