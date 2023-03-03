@@ -5,15 +5,15 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.1</version>
+		<version>3.0.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.jumia</groupId>
-	<artifactId>Jumia</artifactId>
+	<groupId>com.etisalat</groupId>
+	<artifactId>task</artifactId>
 	<version>0.0.1</version>
-	<name>Jumia programming exercise</name>
+	<name>Etisalat programming task</name>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -36,9 +36,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.25.2</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
